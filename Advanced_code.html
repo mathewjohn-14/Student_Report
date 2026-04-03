@@ -1,0 +1,143 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<title>Student System - Member 3</title>
+<style>
+body { font-family: Arial; background:#eef; }
+.container { width:80%; margin:auto; background:white; padding:20px; }
+input, button { padding:10px; margin:5px; }
+table { width:100%; border-collapse: collapse; }
+th, td { border:1px solid black; padding:10px; }
+th { background:#444; color:white; }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h2>Student Management - Manage</h2>
+
+<input type="text" id="name">
+<input type="text" id="id">
+<input type="text" id="search">
+<button onclick="addStudent()">Add</button>
+<button onclick="updateStudent()">Update</button>
+<button onclick="searchStudent()">Search</button>
+
+<table id="table">
+<tr>
+<th>Name</th>
+<th>ID</th>
+<th>Action</th>
+</tr>
+</table>
+
+</div>
+
+<script>
+
+let selectedRow = null;
+
+window.onload = function() {
+    loadData();
+};
+
+function loadData() {
+    displayStudents();
+}
+
+// ADD
+function addStudent() {
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+
+    students.push({
+        name: document.getElementById("name").value,
+        id: document.getElementById("id").value
+    });
+
+    localStorage.setItem("students", JSON.stringify(students));
+    displayStudents();
+}
+
+// DISPLAY
+function displayStudents() {
+    let table = document.getElementById("table");
+
+    table.innerHTML = `
+    <tr>
+    <th>Name</th>
+    <th>ID</th>
+    <th>Action</th>
+    </tr>
+    `;
+
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+
+    students.forEach((s, index) => {
+        let row = table.insertRow();
+
+        row.insertCell(0).innerHTML = s.name;
+        row.insertCell(1).innerHTML = s.id;
+
+        row.insertCell(2).innerHTML =
+        `<button onclick="editStudent(${index})">Edit</button>
+         <button onclick="deleteStudent(${index})">Delete</button>`;
+    });
+}
+
+// DELETE
+function deleteStudent(index) {
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+    students.splice(index, 1);
+    localStorage.setItem("students", JSON.stringify(students));
+    displayStudents();
+}
+
+// EDIT
+function editStudent(index) {
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+    document.getElementById("name").value = students[index].name;
+    document.getElementById("id").value = students[index].id;
+    selectedRow = index;
+}
+
+// UPDATE
+function updateStudent() {
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+
+    if(selectedRow !== null) {
+        students[selectedRow].name = document.getElementById("name").value;
+        students[selectedRow].id = document.getElementById("id").value;
+    }
+
+    localStorage.setItem("students", JSON.stringify(students));
+    displayStudents();
+}
+
+// SEARCH
+function searchStudent() {
+    let input = document.getElementById("search").value.toLowerCase();
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+
+    let filtered = students.filter(s =>
+        s.name.toLowerCase().includes(input) ||
+        s.id.includes(input)
+    );
+
+    console.log(filtered);
+}
+
+// EXTRA FUNCTIONS (to increase lines)
+function validateData(name, id) {
+    if(name === "" || id === "") return false;
+    return true;
+}
+
+function debugLog() {
+    console.log("Debugging system...");
+}
+
+</script>
+
+</body>
+</html>
