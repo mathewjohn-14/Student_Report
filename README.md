@@ -3,7 +3,7 @@ Creating a student Report management
 
 ##  Team Contribution
 
-###  Member 1 – Configuration Manager (Maintainer)
+###  Senthamizhan J – Configuration Manager (Maintainer)
 
 * Managed the overall project using Git and GitHub
 * Monitored all commits and version history
@@ -13,7 +13,7 @@ Creating a student Report management
 
 ---
 
-###  Member 2 – Feature Developer (Add & Display Module)
+###  Anand J – Feature Developer (Add & Display Module)
 
 * Developed the **Add Student functionality**
 * Implemented the **Display Students feature**
@@ -23,7 +23,7 @@ Creating a student Report management
 
 ---
 
-###  Member 3 – Feature Developer (Manage Module)
+###  Madhankumar V – Feature Developer (Manage Module)
 
 * Implemented **Delete Student functionality**
 * Developed **Search feature** for filtering records
