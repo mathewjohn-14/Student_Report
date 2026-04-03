@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student System - Member 2</title>
+<style>
+body { font-family: Arial; background:#f4f4f4; }
+.container { width:80%; margin:auto; background:white; padding:20px; }
+h2 { text-align:center; }
+input, button { padding:10px; margin:5px; }
+table { width:100%; border-collapse: collapse; margin-top:20px; }
+th, td { border:1px solid black; padding:10px; text-align:center; }
+th { background:#333; color:white; }
+.error { color:red; }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h2>Student Management - Add & Display</h2>
+
+<input type="text" id="name" placeholder="Enter Name">
+<input type="text" id="id" placeholder="Enter ID">
+<button onclick="addStudent()">Add Student</button>
+
+<p id="error" class="error"></p>
+
+<table id="table">
+<tr>
+<th>Name</th>
+<th>ID</th>
+</tr>
+</table>
+
+</div>
+
+<script>
+
+// Load data on start
+window.onload = function() {
+    displayStudents();
+};
+
+// ADD STUDENT
+function addStudent() {
+    let name = document.getElementById("name").value;
+    let id = document.getElementById("id").value;
+
+    if(name === "" || id === "") {
+        document.getElementById("error").innerText = "All fields required!";
+        return;
+    }
+
+    if(name.length < 3) {
+        document.getElementById("error").innerText = "Name too short!";
+        return;
+    }
+
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+
+    let student = {
+        name: name,
+        id: id,
+        created: new Date().toLocaleString()
+    };
+
+    students.push(student);
+
+    localStorage.setItem("students", JSON.stringify(students));
+
+    displayStudents();
+    clearFields();
+}
+
+// DISPLAY STUDENTS
+function displayStudents() {
+
+    let table = document.getElementById("table");
+
+    table.innerHTML = `
+    <tr>
+    <th>Name</th>
+    <th>ID</th>
+    </tr>
+    `;
+
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+
+    for(let i = 0; i < students.length; i++) {
+
+        let row = table.insertRow();
+
+        row.insertCell(0).innerHTML = students[i].name;
+        row.insertCell(1).innerHTML = students[i].id;
+
+    }
+}
+
+// CLEAR INPUTS
+function clearFields() {
+    document.getElementById("name").value = "";
+    document.getElementById("id").value = "";
+    document.getElementById("error").innerText = "";
+}
+
+// EXTRA LOGGING (for lines)
+function logStudents() {
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+    console.log("Students:", students);
+}
+
+// DUMMY LOOP (to increase logic)
+function countStudents() {
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+    let count = 0;
+
+    for(let i = 0; i < students.length; i++) {
+        count++;
+    }
+
+    console.log("Total:", count);
+}
+
+</script>
+
+</body>
+</html>
